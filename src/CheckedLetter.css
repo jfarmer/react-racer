@@ -1,0 +1,7 @@
+.checked-quote-letter.incorrect {
+  color: red;
+}
+
+.checked-quote-letter.correct {
+  color: green;
+}

@@ -1,0 +1,10 @@
+.racer-container .checked-quote {
+  font-size: 18px;
+  margin-left: 0;
+  padding: 0;
+}
+
+.racer-container textarea {
+  width: 50%;
+  height: 100px;
+}
