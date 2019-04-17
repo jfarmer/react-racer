@@ -1,0 +1,3 @@
+.word.current .not-whitespace {
+  text-decoration: underline;
+}

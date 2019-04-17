@@ -1,22 +1,26 @@
 import React from 'react';
-import CheckedLetter from './CheckedLetter';
+import CheckedWord from './CheckedWord';
 
-const zipWith = fn => (xs, ys) => (
-  xs.map((x, i) => fn(x, ys[i], i))
-);
+import './CheckedQuote.css';
 
-const zipCheckedLetter = zipWith((quotedLetter, typedLetter, position) => (
-  CheckedLetter({ quotedLetter, typedLetter, position })
-));
-
-const CheckedQuote = ({ quote, typed }) => {
-  const quotedLetters = Array.from(quote);
-  const typedLetters = Array.from(typed);
+const CheckedQuote = ({ quoteMap, currentWordIndex, currentPosition }) => {
+  const words = Array.from(quoteMap.words());
 
   return (
     <blockquote className="checked-quote">
       {
-        zipCheckedLetter(quotedLetters, typedLetters)
+        words.map((word, wordIndex) => {
+          const isCurrent = wordIndex === currentWordIndex;
+
+          return (
+            <CheckedWord
+              key={word.offset}
+              word={word}
+              isCurrent={isCurrent}
+              currentPosition={currentPosition}
+            />
+          );
+        })
       }
     </blockquote>
   );

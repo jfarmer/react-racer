@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
 import CheckedQuote from './CheckedQuote';
-import TypingInput from './TypingInput';
+import CheckedInput from './CheckedInput';
+
+import QuoteMap from './QuoteMap';
 
 import './TypeRacer.css';
 
-const TypeRacer = () => {
-  const quote = 'She sells sea shells by the sea shore.'
-  const [typed, setTyped] = useState('');
+const TypeRacer = ({ quote }) => {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const [anyWordsLeft, setAnyWordsLeft] = useState(true);
+
+  const quoteMap = QuoteMap({ quote });
+
+  const currentWord = quoteMap.getWord(wordIndex);
+  const currentOffset = quoteMap.getWordOffset(wordIndex);
+
+  const onWordMatch = () => {
+    if (wordIndex < quoteMap.wordsCount() - 1) {
+      return setWordIndex(wordIndex + 1);
+    }
+    return setAnyWordsLeft(false);
+  };
+
+  const onInputChange = value => setCurrentPosition(currentOffset + value.length);
 
   return (
     <div className="racer-container">
       <form>
-        <CheckedQuote quote={quote} typed={typed} />
-        <TypingInput onInputChange={setTyped} />
+        <CheckedQuote
+          quoteMap={quoteMap}
+          currentWordIndex={wordIndex}
+          currentPosition={currentPosition}
+        />
+        {anyWordsLeft ? (
+          <CheckedInput
+            expectedWord={currentWord}
+            onInputChange={onInputChange}
+            onWordMatch={onWordMatch}
+          />
+        ) : (
+          <span>Congrats!</span>
+        )}
       </form>
     </div>
-  )
+  );
 };
 
 export default TypeRacer;

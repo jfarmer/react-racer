@@ -12,7 +12,7 @@ const CheckedLetter = ({ quotedLetter, typedLetter, position }) => {
     componentClasses.push('correct');
   }
 
-  let componentClassString = componentClasses.join(' ');
+  const componentClassString = componentClasses.join(' ');
 
   return (
     <span key={position} className={componentClassString}>{quotedLetter}</span>
