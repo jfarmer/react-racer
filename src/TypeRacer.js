@@ -18,9 +18,10 @@ const TypeRacer = ({ quote }) => {
 
   const onWordMatch = () => {
     if (wordIndex < quoteMap.wordsCount() - 1) {
-      return setWordIndex(wordIndex + 1);
+      setWordIndex(wordIndex + 1);
+    } else {
+      setAnyWordsLeft(false);
     }
-    return setAnyWordsLeft(false);
   };
 
   const onInputChange = value => setCurrentPosition(currentOffset + value.length);
