@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import useInterval from './useInterval';
+
 import RightOpenInterval from './RightOpenInterval';
 import QuoteMap from './QuoteMap';
 
@@ -34,6 +36,7 @@ const getOffsetMismatchPosition = (offset, word, input) => {
 const ActiveRacer = ({ quote, onFinish }) => {
   const [wordIndex, setWordIndex] = useState(0);
   const [currentInput, setCurrentInput] = useState('');
+  const [currentWpm, setCurrentWpm] = useState(0);
 
   const quoteMap = QuoteMap({ quote });
 
@@ -46,11 +49,20 @@ const ActiveRacer = ({ quote, onFinish }) => {
 
   const typingIntervals = TypingIntervals(0, quoteMismatchPos, cursorPosition, quote.length);
 
+  useInterval((elapsed) => {
+    const wordsTyped = wordIndex;
+    const elapsedMin = elapsed / (60 * 1000);
+
+    const wpm = wordsTyped > 0 ? wordsTyped / elapsedMin : 0;
+
+    setCurrentWpm(Math.floor(wpm));
+  }, 500);
+
   function onWordMatch() {
     if (wordIndex < quoteMap.wordsCount() - 1) {
       setWordIndex(wordIndex + 1);
     } else {
-      onFinish();
+      onFinish({ finalWpm: currentWpm });
     }
   }
 
@@ -69,6 +81,11 @@ const ActiveRacer = ({ quote, onFinish }) => {
           onInputChange={setCurrentInput}
           onWordMatch={onWordMatch}
         />
+
+        <div>
+          <strong>WPM:</strong>
+          <span>{currentWpm}</span>
+        </div>
       </form>
     </div>
   );
