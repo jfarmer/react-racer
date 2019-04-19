@@ -2,10 +2,9 @@
   font-size: 18px;
   margin-left: 0;
   padding: 0;
-  max-width: 400px;
+  max-width: 50%;
 }
 
-.racer-container textarea {
+.racer-container input {
   width: 50%;
-  height: 100px;
 }
