@@ -19,6 +19,12 @@ const getOffsetMismatchPosition = (offset, word, input) => {
 /**
  * FIXME: This component should be renderable even if we've typed everything.
  * Otherwise, we rely on the parent component to ensure we don't get rendered.
+ *
+ * It's not renderable because it relies on wordIndex to decide what to display,
+ * but after the race has finished we can't increment wordIndex and re-render because
+ * wordIndex will be beyond the end of the list of words.
+ *
+ * But if we don't increment it, it will render as if we have yet to type the last word.
  */
 const ActiveRacer = ({ quote, onFinish }) => {
   const [wordIndex, setWordIndex] = useState(0);
