@@ -2,26 +2,13 @@ import React, { useState } from 'react';
 
 import useInterval from './useInterval';
 
-import RightOpenInterval from './RightOpenInterval';
 import QuoteMap from './QuoteMap';
 
 import CheckedQuote from './CheckedQuote';
 import CheckedInput from './CheckedInput';
 
 import firstMismatchPosition from './firstMismatchPosition';
-import zipAdjacentWith from './zipAdjacentWith';
-
-const TypingIntervals = (start, mismatchedPos, cursorPos, textLength) => {
-  const endpoints = [start, mismatchedPos, cursorPos, textLength];
-
-  const [typed, mismatched, untyped] = zipAdjacentWith(endpoints, RightOpenInterval);
-
-  return {
-    typedInterval: typed,
-    mismatchedInterval: mismatched,
-    untypedInterval: untyped,
-  };
-};
+import createTypingIntervals from './createTypingIntervals';
 
 const getOffsetMismatchPosition = (offset, word, input) => {
   const inputMismatchPosition = firstMismatchPosition(word, input);
@@ -47,7 +34,7 @@ const ActiveRacer = ({ quote, onFinish }) => {
 
   const quoteMismatchPos = getOffsetMismatchPosition(currentOffset, currentWord.text, currentInput);
 
-  const typingIntervals = TypingIntervals(0, quoteMismatchPos, cursorPosition, quote.length);
+  const typingIntervals = createTypingIntervals(0, quoteMismatchPos, cursorPosition, quote.length);
 
   useInterval((elapsed) => {
     const wordsTyped = wordIndex;
