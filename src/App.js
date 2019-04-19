@@ -9,7 +9,11 @@ const App = () => (
       <h1>ReactRacer</h1>
     </header>
 
-    <TypeRacer quote="She sells sea shells by the sea shore." />
+    <TypeRacer
+      quote="What good are prayers and shrines to a person mad with love?
+             The flame keeps gnawing into her tender marrow hour by hour,
+             and deep in her heart the silent wound lives on."
+    />
   </div>
 );
 

@@ -2,6 +2,7 @@
   font-size: 18px;
   margin-left: 0;
   padding: 0;
+  max-width: 400px;
 }
 
 .racer-container textarea {
