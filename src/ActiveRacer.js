@@ -4,6 +4,8 @@ import useInterval from './useInterval';
 
 import QuoteMap from './QuoteMap';
 
+import ProgressBar from './ProgressBar';
+
 import CheckedQuote from './CheckedQuote';
 import CheckedInput from './CheckedInput';
 
@@ -30,6 +32,7 @@ const ActiveRacer = ({ quote, onFinish }) => {
   const [wordIndex, setWordIndex] = useState(0);
   const [currentInput, setCurrentInput] = useState('');
   const [currentWpm, setCurrentWpm] = useState(0);
+  const [pctTyped, setPctTyped] = useState(0);
 
   const quoteMap = QuoteMap({ quote });
 
@@ -53,14 +56,17 @@ const ActiveRacer = ({ quote, onFinish }) => {
 
   function onWordMatch() {
     if (wordIndex < quoteMap.wordsCount() - 1) {
+      setPctTyped((wordIndex + 1) / quoteMap.wordsCount());
       setWordIndex(wordIndex + 1);
     } else {
+      setPctTyped(100);
       onFinish({ finalWpm: currentWpm });
     }
   }
 
   return (
     <div className="active-racer">
+      <ProgressBar percent={pctTyped} />
       <form>
         <CheckedQuote
           quoteMap={quoteMap}
