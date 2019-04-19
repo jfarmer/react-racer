@@ -1,0 +1,27 @@
+{
+  "name": "react-racer-api",
+  "version": "0.1.0",
+  "description": "API for React Racer",
+  "main": "api.js",
+  "scripts": {
+    "start": "node api.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfarmer/react-racer.git"
+  },
+  "author": "Jesse Farmer <jesse@20bits.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jfarmer/react-racer/issues"
+  },
+  "homepage": "https://github.com/jfarmer/react-racer#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1"
+  }
+}
