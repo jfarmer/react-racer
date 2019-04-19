@@ -6,6 +6,7 @@ const Word = ({ offset, text }) => {
     text,
     word,
     whitespace,
+    letters: Array.from(text),
     hasWhitespace: () => Boolean(whitespace),
     toString: () => text,
   };

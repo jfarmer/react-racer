@@ -1,6 +1,14 @@
-import React from 'react';
+/* eslint-disable react/no-array-index-key */
 
-const CheckedWord = ({ word, isCurrent }) => {
+import React from 'react';
+import CheckedLetter from './CheckedLetter';
+
+const CheckedWord = ({
+  word,
+  isCurrent,
+  cursorPosition,
+  typingIntervals,
+}) => {
   const componentClasses = ['word'];
 
   if (isCurrent) {
@@ -9,10 +17,21 @@ const CheckedWord = ({ word, isCurrent }) => {
 
   const componentClassString = componentClasses.join(' ');
 
+  const { offset } = word;
+
   return (
-    <span key={word.offset} className={componentClassString}>
-      <span className="not-whitespace">{word.word}</span>
-      {word.hasWhitespace() && <span className="whitespace">{word.whitespace}</span>}
+    <span key={`checked-word-${offset}`} className={componentClassString}>
+      {
+        word.letters.map((letter, i) => (
+          <CheckedLetter
+            key={`checked-letter-${offset}-${i}`}
+            letter={letter}
+            typingIntervals={typingIntervals}
+            cursorPosition={cursorPosition}
+            position={offset + i}
+          />
+        ))
+      }
     </span>
   );
 };

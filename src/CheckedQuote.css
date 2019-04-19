@@ -1,3 +1,13 @@
 .word.current .not-whitespace {
   text-decoration: underline;
 }
+
+.checked-quote-letter.typed {
+  background-color: palegreen;
+  color: green;
+}
+
+.checked-quote-letter.mismatch {
+  background-color: #FFBABA;
+  color: #D8000C;
+}
