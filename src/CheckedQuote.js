@@ -3,7 +3,12 @@ import CheckedWord from './CheckedWord';
 
 import './CheckedQuote.css';
 
-const CheckedQuote = ({ quoteMap, currentWordIndex, currentPosition }) => {
+const CheckedQuote = ({
+  quoteMap,
+  currentWordIndex,
+  cursorPosition,
+  typingIntervals,
+}) => {
   const words = Array.from(quoteMap.words());
 
   return (
@@ -17,7 +22,8 @@ const CheckedQuote = ({ quoteMap, currentWordIndex, currentPosition }) => {
               key={word.offset}
               word={word}
               isCurrent={isCurrent}
-              currentPosition={currentPosition}
+              cursorPosition={cursorPosition}
+              typingIntervals={typingIntervals}
             />
           );
         })
