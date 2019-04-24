@@ -39,6 +39,8 @@ const App = () => {
     });
 
     socket.emit('game.join');
+
+    return () => socket.close();
   }, []);
 
   function onFinish() {
