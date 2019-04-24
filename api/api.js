@@ -19,8 +19,9 @@ const RacerStates = Object.freeze({
 const noop = () => {};
 
 class Game {
-  constructor({ id, state, onGameStart = noop, onGameFinished = noop }) {
+  constructor({ id, state, maxPlayers, onGameStart = noop, onGameFinished = noop }) {
     this.state = state;
+    this.maxPlayers = maxPlayers;
     this.onGameStart = onGameStart;
     this.onGameFinished = onGameFinished;
     this.players = [];
@@ -34,16 +35,16 @@ class Game {
 
     this.players.push(player);
 
-    if (this.isFull()) {
-      this.state = RacerStates.IN_PROGRESS;
-      this.onGameStart(this);
-    }
-
     return this;
   }
 
   hasPlayer(player) {
     return this.players.includes(player);
+  }
+
+  start() {
+    this.state = RacerStates.IN_PROGRESS;
+    this.onGameStart(this);
   }
 
   isFull() {
@@ -64,13 +65,14 @@ class Game {
 }
 
 class Player {
-  constructor({ socketId }) {
+  constructor({ id, socketId }) {
+    this.id = id;
     this.socketId = socketId;
   }
 }
 
 const createNewGame = ( { onGameStart }) => {
-  return new Game({ onGameStart, id: uuid(), state: RacerStates.WAITING });
+  return new Game({ maxPlayers: 2, onGameStart, id: uuid(), state: RacerStates.WAITING });
 }
 
 let activeGame = null;
@@ -80,7 +82,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  const player = new Player({ socketId: socket.id });
+  const player = new Player({ id: uuid(), socketId: socket.id });
 
   socket.on('disconnect', () => {
     if (activeGame && activeGame.hasPlayer(player)) {
@@ -103,10 +105,28 @@ io.on('connection', (socket) => {
       socket.join(activeGame.id);
       socket.emit('game.message', 'Waiting for players.');
 
+      socket.emit('game.playerId', player.id);
+
+      // TODO: This is a hack. Should send down
+      // list of existing players when someone connects.
+      activeGame.players.forEach((player) => {
+        socket.emit('game.player.join', player.id);
+      });
+
       activeGame.addPlayer(player);
+
+      io.in(activeGame.id).emit('game.player.join', player.id);
+
+      if (activeGame.isFull()) {
+        activeGame.start();
+      }
     } else {
       socket.emit('game.message', 'The game is full.');
     }
+  });
+
+  socket.on('game.player.pct', ({ id, pct }) => {
+    io.to(activeGame.id).emit('game.player.setPct', { id, pct });
   });
 });
 

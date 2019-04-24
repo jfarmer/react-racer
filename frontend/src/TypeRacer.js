@@ -6,12 +6,13 @@ import ActiveRacer from './ActiveRacer';
 
 import './TypeRacer.css';
 
-const TypeRacer = ({ quote, racerState }) => {
+const TypeRacer = ({ quote, onFinish, racerState, ...props }) => {
   console.log(racerState);
   const [wpm, setWpm] = useState(0);
 
   function finishedRacing({ finalWpm }) {
     setWpm(finalWpm);
+    onFinish(finalWpm);
   }
 
   if (racerState === RacerStates.WAITING) {
@@ -23,7 +24,7 @@ const TypeRacer = ({ quote, racerState }) => {
   if (racerState === RacerStates.IN_PROGRESS) {
     return (
       <div className="racer-container">
-        <ActiveRacer quote={quote} onFinish={finishedRacing} />
+        <ActiveRacer quote={quote} onFinish={finishedRacing} {...props} />
       </div>
     );
   }
