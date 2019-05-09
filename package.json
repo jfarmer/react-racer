@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "jfarmer/react-racer for codesandbox server",
   "scripts": {
-    "start": "SERVER='https://2v0n4v15z0.sse.codesandbox.io' npm-run-all --sequential syncrepo install:server install:frontend --parallel start:server start:frontend",
+    "start": "SERVER='https://2v0n4v15z0.sse.codesandbox.io' npm-run-all --sequential install:server install:frontend --parallel start:server start:frontend",
     "install:server": "cd api; yarn install",
     "install:frontend": "cd frontend; yarn install",
     "start:server": "cd api; yarn start",
