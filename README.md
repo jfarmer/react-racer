@@ -6,7 +6,11 @@
   - **NOTE**: this is a `server` codesandbox repo, so you will need to 'fork' it on codesandbox (need account) before it will switch to `server` mode
 
 ### setup
-- adjust the `SERVER` variable in `package.json` `start` script to be the full url of this codesandbox instance (visible in browser preview)
+- should just work.
+- problems? 
+  - try hardcoding `server` url in `frontend/App.js` - use full url of this codesandbox instance (visible in browser preview) not including trailing slace
+  - remove or add syncrepo in `yarn start`
+  - separately start server and client using `yarn start:server`, `yarn start:frontend` in separate terminals
 
 ### how this works [on codesandbox](https://codesandbox.io/s/2v0n4v15z0)
 
