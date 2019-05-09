@@ -1,55 +1,44 @@
 import React, { useState } from 'react';
 
-import './TypeRacer.css';
+import RacerStates from './RacerStates';
 
 import ActiveRacer from './ActiveRacer';
 
-const RacerStates = Object.freeze({
-  WAITING: Symbol('RACER_STATE_WAITING'),
-  IN_PROGRESS: Symbol('RACER_STATE_IN_PROGRESS'),
-  FINISHED: Symbol('RACER_STATE_FINISHED'),
-});
+import './TypeRacer.css';
 
-const TypeRacer = ({ quote }) => {
-  const [racerState, setRacerState] = useState({
-    state: RacerStates.WAITING,
-    wpm: 0,
-  });
-
-  function startRacing() {
-    setRacerState({
-      state: RacerStates.IN_PROGRESS,
-      wpm: racerState.wpm,
-    });
-  }
+const TypeRacer = ({ quote, onFinish, racerState, ...props }) => {
+  console.log(racerState);
+  const [wpm, setWpm] = useState(0);
 
   function finishedRacing({ finalWpm }) {
-    setRacerState({
-      state: RacerStates.FINISHED,
-      wpm: finalWpm,
-    });
+    setWpm(finalWpm);
+    onFinish(finalWpm);
   }
 
-  if (racerState.state === RacerStates.WAITING) {
+  if (racerState === RacerStates.WAITING) {
     return (
-      <button type="button" onClick={startRacing}>
-        Start!
-      </button>
+      <h2>Please wait for game to start.</h2>
     );
   }
 
-  if (racerState.state === RacerStates.IN_PROGRESS) {
+  if (racerState === RacerStates.IN_PROGRESS) {
     return (
       <div className="racer-container">
-        <ActiveRacer quote={quote} onFinish={finishedRacing} />
+        <ActiveRacer quote={quote} onFinish={finishedRacing} {...props} />
       </div>
     );
   }
 
+  if (racerState === RacerStates.FINISHED) {
+    return (
+      <h2>
+        {`Congrats! You typed ${wpm} words per minute.`}
+      </h2>
+    );
+  }
+
   return (
-    <h2>
-      {`Congrats! You typed ${racerState.wpm} words per minute.`}
-    </h2>
+    <h2>Unknown game state.</h2>
   );
 };
 

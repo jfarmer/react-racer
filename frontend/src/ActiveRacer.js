@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import useInterval from './useInterval';
 
@@ -28,7 +28,7 @@ const getOffsetMismatchPosition = (offset, word, input) => {
  *
  * But if we don't increment it, it will render as if we have yet to type the last word.
  */
-const ActiveRacer = ({ quote, onFinish }) => {
+const ActiveRacer = ({ quote, onFinish, emit, playerId, players, playersPct }) => {
   const [wordIndex, setWordIndex] = useState(0);
   const [currentInput, setCurrentInput] = useState('');
   const [currentWpm, setCurrentWpm] = useState(0);
@@ -54,19 +54,31 @@ const ActiveRacer = ({ quote, onFinish }) => {
     setCurrentWpm(Math.floor(wpm));
   }, 500);
 
+  useEffect(() => {
+    emit('game.player.pct', { id: playerId, pct: pctTyped });
+  }, [pctTyped]);
+
   function onWordMatch() {
     if (wordIndex < quoteMap.wordsCount() - 1) {
       setPctTyped((wordIndex + 1) / quoteMap.wordsCount());
       setWordIndex(wordIndex + 1);
     } else {
-      setPctTyped(100);
+      setPctTyped(1);
       onFinish({ finalWpm: currentWpm });
     }
   }
 
   return (
     <div className="active-racer">
-      <ProgressBar percent={pctTyped} />
+      {
+        players.map((playerId) => {
+          const playerPctTyped = playersPct[playerId] || 0;
+
+          return (
+            <ProgressBar key={playerId} percent={playerPctTyped} />
+          );
+        })
+      }
       <form>
         <CheckedQuote
           quoteMap={quoteMap}
