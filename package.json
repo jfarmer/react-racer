@@ -8,7 +8,7 @@
     "install:frontend": "cd frontend && yarn install && cd ..",
     "start:server": "cd api && yarn start",
     "start:frontend": "cd frontend && FORCE_COLOR=true yarn start | cat",
-    "startsync": "npm-run-all syncrepo install:* --parallel start:server start:frontend",",
+    "startsync": "npm-run-all syncrepo install:* --parallel start:server start:frontend",
     "syncrepo": "svn checkout -r HEAD --force https://github.com/jfarmer/react-racer/trunk ."
   },
   "dependencies": {},
