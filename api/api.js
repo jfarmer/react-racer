@@ -4,11 +4,9 @@ const http = require("http");
 const socketIo = require('socket.io');
 
 const port = process.env.PORT || 4001;
-
 const app = express();
-
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, ({ path: "/cra-proxy" }))
 
 const RacerStates = Object.freeze({
   WAITING: Symbol('RACER_STATE_WAITING'),

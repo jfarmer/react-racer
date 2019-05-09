@@ -11,12 +11,26 @@
   - try hardcoding `server` url in `frontend/App.js` - use full url of this codesandbox instance (visible in browser preview) not including trailing slace
   - remove or add syncrepo in `yarn start`
   - separately start server and client using `yarn start:server`, `yarn start:frontend` in separate terminals
+  - CORS & websockets? 
+    - https://socket.io/docs/server-api/#server-origins-value
+    - https://stackoverflow.com/questions/24058157/socket-io-node-js-cross-origin-request-blocked
 
 ### how this works [on codesandbox](https://codesandbox.io/s/2v0n4v15z0)
 
-The `start` script in `package.json` first uses svn to sync root of github repo `/` to codesandbox `.` aka `/sandbox/`. Visitors/forkers of this codesandbox should always get an up-to-date demo.
+The `start` script in `package.json` first uses `svn` to sync root of github repo `jfarmer/react-racer` to codesandbox at `~/.` aka `/sandbox/`. This should ensure visitors/forkers of this codesandbox get an up-to-date demo.
 
-trickiest part of getting this to work was figuring out how to tell codesandbox host server which port to proxy (wanted to use port 3000 at first). turns out the way is to set `container: { "port": 8000 }` in `sandbox.config.json`.
+Ran into CORS pain with `socket.io`, maybe b/c codesandbox only lets us expose one port; or maybe b/c I hate CORS more than webpack in terms of unexpected configuration complexity and don't know how to use it well. Solution was to use `create-react-app`'s `proxy` feature in conjunction with setting a socket.io custom `path` (not `namespace`!): this directs the client to establish its websocket connection at `https://<host>/cra-proxy` vs `https://<host>:4001/socket.io`. I thought this might be better than the vanilla cra proxy feature b/c it by default proxys everything that doesn't match a route. See:
+- https://socket.io/docs/client-api/#With-custom-path
+  - w/o custom path socket.io directs all ws connections to <origin>/socket.io/<params>
+- https://facebook.github.io/create-react-app/docs/proxying-api-requests-in-development
+- https://github.com/chimurai/http-proxy-middleware#shorthand for "shorthand" form of `proxy` config string used in package.json (how to set route filter)
+- `frontend/package.json`: `proxy: ...`
+- `frontend/src/App.js:` `socketPath = ...`
+- `api/api.js`: `const io = socketIo(server).of("/cra-proxy");`
+
+If you want to change the port cra uses internally on the codesandbox server, see `./sandbox.config.json: container.port`.
+
+lastly, to supress CRA 
 
 ### using svn w/ github
 
