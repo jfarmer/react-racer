@@ -10,7 +10,8 @@ import './App.css';
 
 // const socket = io('http://localhost:4001');
 // host = 'https://2v0n4v15z0.sse.codesandbox.io'
-const server = process.env.SERVER || 'localhost'
+// const server = process.env.SERVER || 'localhost'
+const server = window.location.href || 'localhost'
 const port = process.env.PORT || '4001'
 const socket = io(`${server}:${port}`);
 
