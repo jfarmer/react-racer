@@ -7,7 +7,12 @@ import TypeRacer from './TypeRacer';
 import 'normalize.css';
 import './App.css';
 
-const socket = io('http://localhost:4001');
+// NOTE use env in PRODUCTION after ejecting CRA
+//
+// const server = process.env.SERVER || 'localhost'
+// const port = process.env.PORT || "4001";
+const server = window.location.origin || "localhost"; // for dynamic codesandbox urls
+const socket = io(server, { path: '/cra-proxy' } ); // see package.json {proxy:...}
 
 const App = () => {
   const [racerState, setRacerState] = useState(RacerStates.WAITING);
