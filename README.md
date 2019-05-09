@@ -2,6 +2,8 @@
 
 - original: https://github.com/jfarmer/react-racer
 - codesandbox fork: https://github.com/100ideas/react-racer/tree/codesandbox
+- codesandbox demo: http://codesandbox.io/s/github/100ideas/react-racer/tree/codesandbox
+  - **NOTE**: this is a `server` codesandbox repo, so you will need to 'fork' it on codesandbox (need account) before it will switch to `server` mode
 
 ### setup
 - adjust the `SERVER` variable in `package.json` `start` script to be the full url of this codesandbox instance (visible in browser preview)
