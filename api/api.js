@@ -8,6 +8,11 @@ const port = process.env.PORT || 4001;
 const app = express();
 
 const server = http.createServer(app);
+
+// The frontend runs on a different port, so CORS is required.
+//
+// For now, allow requests regardless of  origin. If this were
+// a Real Project™, you'd use an environment-specific config file.
 const io = new SocketIO(server, {
   cors: {
     origin: '*',
