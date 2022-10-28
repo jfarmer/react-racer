@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const express = require('express');
 const http = require("http");
 const socketIo = require('socket.io');
