@@ -1,6 +1,8 @@
 # React Racer
 
-Building a [TypeRacer](https://play.typeracer.com/) clone in React was a project for a class I taught. This is a prototype built during a live session and cleaned up.
+Building a [TypeRacer](https://play.typeracer.com/) clone in React was a project for a class I taught.
+
+I built a toy/demo/prototype during a live session. This is a slightly cleaned-up version of that, but is still very much a toy.
 
 ## Running
 
