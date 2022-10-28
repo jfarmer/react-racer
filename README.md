@@ -4,6 +4,14 @@ Building a [TypeRacer](https://play.typeracer.com/) clone in React was a project
 
 I built a toy/demo/prototype during a live session. This is a slightly cleaned-up version of that, but is still very much a toy.
 
+## Branches + Pull Requests
+
+The demo was built using a full "PR + merge" workflow so that students could see how a more experienecd engineer might group + sequence the changes.
+
+I kept the branches so students could jump in to any stage of the projects.
+
+See the [list of merged pull requests on GitHub](https://github.com/jfarmer/react-racer/pulls?q=is%3Apr+is%3Aclosed).
+
 ## Running
 
 The project comes in two parts:
