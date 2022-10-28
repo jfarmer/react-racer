@@ -8,7 +8,11 @@ const port = process.env.PORT || 4001;
 const app = express();
 
 const server = http.createServer(app);
-const io = new SocketIO(server);
+const io = new SocketIO(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
 const RacerStates = Object.freeze({
   WAITING: Symbol('RACER_STATE_WAITING'),
